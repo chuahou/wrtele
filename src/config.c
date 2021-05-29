@@ -1,6 +1,7 @@
 // SPDX-License-Identifier: MIT
 // Copyright (c) 2021 Chua Hou
 
+#include <ctype.h>
 #include <stdlib.h>
 #include <string.h>
 
@@ -34,8 +35,12 @@ struct device *config_mac_addrs(size_t *len)
 		if (!new_devices) { free(devices); len = 0; return NULL; }
 		devices = new_devices;
 		strncpy(devices[*len - 1].mac, mac, 17);
+		for (char *p = devices[*len - 1].mac; *p != '\0'; p++)
+			*p = tolower(*p);
 		devices[*len - 1].connected = false;
+		mac = strtok(NULL, " ,;");
 	}
+	free(addrs);
 
 	return devices;
 }

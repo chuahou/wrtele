@@ -9,8 +9,9 @@
 #include "config.h"
 #include "mac.h"
 
-struct device *check_status(struct device *devs, size_t devs_len)
+struct device *check_status(struct device *devs, size_t devs_len, size_t *changed_len)
 {
+	*changed_len = 0;
 	char *macs = list_macs();
 	if (!macs) return NULL;
 
@@ -19,16 +20,18 @@ struct device *check_status(struct device *devs, size_t devs_len)
 
 	// Array of changed devices.
 	struct device *changed = malloc(sizeof(struct device) * devs_len);
-	size_t changed_len = 0;
+	if (!changed) { free(macs); return NULL; }
 
 	// Iterate through devices.
 	for (size_t i = 0; i < devs_len; i++) {
-		if (strstr(macs, devs[i].mac) != NULL && !devs[i].connected) {
-			devs[i].connected = true;
-			changed[changed_len++] = devs[i];
+		if (strstr(macs, devs[i].mac) != NULL) {
+			if (!devs[i].connected) {
+				devs[i].connected = true;
+				changed[(*changed_len)++] = devs[i];
+			}
 		} else if (devs[i].connected) {
 			devs[i].connected = false;
-			changed[changed_len++] = devs[i];
+			changed[(*changed_len)++] = devs[i];
 		}
 	}
 	free(macs);

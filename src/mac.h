@@ -17,7 +17,7 @@ struct device {
 
 // Updates the connection status of devices devs, and returns a list of changed
 // devices. The list must be free()-ed.
-struct device *check_status(struct device *devs, size_t num_devs);
+struct device *check_status(struct device *devs, size_t num_devs, size_t *changed_len);
 
 // Returns a string of the output of config_list_command()'s commands, which
 // must be free()-ed.
