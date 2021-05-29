@@ -9,8 +9,8 @@
   in {
     # Shell needed for the SDK to configure itself and build.
     devShell.x86_64-linux = pkgs.mkShell {
-      nativeBuildInputs = with pkgs; [ pkg-config ];
-      buildInputs       = with pkgs; [ ncurses ];
+      nativeBuildInputs = with pkgs; [ clang-tools pkg-config ];
+      buildInputs       = with pkgs; [ curl ncurses ];
     };
   };
 }

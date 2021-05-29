@@ -14,11 +14,15 @@ HEADERS := $(wildcard *.h)
 
 build: | dirs $(BIN)
 
-$(BIN): $(OBJ)
-	$(CC) $^ -o $@
+config.h:
+	@echo "Make a copy of config.tmpl.h called config.h and do configuration there."
+	@false
 
-$(OBJDIR)/%.o: %.c $(HEADERS)
-	$(CC) -Wall -O3 -c $< -o $@
+$(BIN): $(OBJ)
+	$(CC) $^ -lcurl -o $@
+
+$(OBJDIR)/%.o: %.c $(HEADERS) config.h
+	$(CC) -Wall -O3 -std=gnu99 -c $< -o $@
 
 dirs:
 	mkdir -p $(OBJDIR) $(BINDIR)
