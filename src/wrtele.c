@@ -39,6 +39,7 @@ int main(int argc, char **argv)
 				tele_send_message(msg); puts(msg);
 			}
 		}
+		free(changed);
 
 		sleep(sleep_duration);
 	}
