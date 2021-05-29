@@ -21,4 +21,7 @@ struct device *config_mac_addrs(size_t *len);
 // Command(s) to execute to list MAC addresses, separated by ';'.
 char *config_list_command();
 
+// Duration to sleep between checks.
+unsigned int config_sleep_duration();
+
 #endif

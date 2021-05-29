@@ -49,3 +49,13 @@ char *config_list_command()
 {
 	return getenv("WRTELE_LIST_COMMAND");
 }
+
+unsigned int config_sleep_duration()
+{
+	char *env = getenv("WRTELE_SLEEP_DURATION");
+	if (env) {
+		long parse = strtol(env, NULL, 0);
+		return parse <= 0L ? 1 : (unsigned int) parse;
+	}
+	else return 1;
+}

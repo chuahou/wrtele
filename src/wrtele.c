@@ -21,6 +21,7 @@ int main(int argc, char **argv)
 	}
 
 	// Infinite loop to watch.
+	unsigned int sleep_duration = config_sleep_duration();
 	while (true) {
 		size_t changed_len;
 		struct device *changed = check_status(macs, macs_len, &changed_len);
@@ -39,6 +40,6 @@ int main(int argc, char **argv)
 			}
 		}
 
-		sleep(1);
+		sleep(sleep_duration);
 	}
 }
