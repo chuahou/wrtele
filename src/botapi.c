@@ -23,7 +23,8 @@ bool tele_send_message(char *msg)
 		char *url;
 		if (asprintf(&url,
 				"https://api.telegram.org/bot%s/sendMessage?chat_id=%s&text=%s",
-				TELE_API_KEY, TELE_TARGET_CHAT_ID, encoded_msg) < 0) return false;
+				config_tele_api_key(), config_tele_target_chat_id(),
+				encoded_msg) < 0) return false;
 		curl_free(encoded_msg);
 
 		// Perform CURL request.

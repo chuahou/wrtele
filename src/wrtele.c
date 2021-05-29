@@ -7,10 +7,10 @@
 #include "botapi.h"
 #include "config.h"
 
-int main()
+int main(int argc, char **argv)
 {
 	puts("wrtele");
-	tele_send_message("wrtele");
+	tele_send_message(argc > 1 ? argv[1] : "wrtele");
 
 	return 0;
 }
