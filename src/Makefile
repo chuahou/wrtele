@@ -1,6 +1,9 @@
 # SPDX-License-Identifier: MIT
 # Copyright (c) 2021 Chua Hou
 
+override CFLAGS += -Wall -O3 -std=gnu99
+override LDFLAGS += -lcurl
+
 OBJDIR := obj
 BINDIR := bin
 
@@ -19,10 +22,10 @@ config.h:
 	@false
 
 $(BIN): $(OBJ)
-	$(CC) $^ -lcurl -o $@
+	$(CC) $^ $(LDFLAGS) -o $@
 
 $(OBJDIR)/%.o: %.c $(HEADERS) config.h
-	$(CC) -Wall -O3 -std=gnu99 -c $< -o $@
+	$(CC) $(CFLAGS) -c $< -o $@
 
 dirs:
 	mkdir -p $(OBJDIR) $(BINDIR)
