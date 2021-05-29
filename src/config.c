@@ -2,8 +2,10 @@
 // Copyright (c) 2021 Chua Hou
 
 #include <stdlib.h>
+#include <string.h>
 
 #include "config.h"
+#include "mac.h"
 
 char *config_tele_api_key()
 {
@@ -13,4 +15,32 @@ char *config_tele_api_key()
 char *config_tele_target_chat_id()
 {
 	return getenv("WRTELE_TELE_TARGET_CHAT_ID");
+}
+
+struct device *config_mac_addrs(size_t *len)
+{
+	// Make copy so we can strtok.
+	char *env = getenv("WRTELE_MAC_ADDRS");
+	char *addrs = malloc(strlen(env) + 1);
+	memcpy(addrs, env, strlen(env) + 1);
+
+	// Iterate through tokens.
+	*len = 0;
+	struct device *devices = NULL;
+	char *mac = strtok(addrs, " ,;");
+	while (mac != NULL) {
+		struct device *new_devices = realloc(devices,
+				sizeof(struct device) * ++*len);
+		if (!new_devices) { free(devices); len = 0; return NULL; }
+		devices = new_devices;
+		strncpy(devices[*len - 1].mac, mac, 17);
+		devices[*len - 1].connected = false;
+	}
+
+	return devices;
+}
+
+char *config_list_command()
+{
+	return getenv("WRTELE_LIST_COMMAND");
 }
