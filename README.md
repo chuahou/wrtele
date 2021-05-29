@@ -7,6 +7,9 @@ disconnect.
 
 ## Build process
 
+Firstly, perform configuration by making a copy of `config.tmpl.h` into
+`config.h` in the `src` directory, filling in the options.
+
 If using Nix, first enter the `devShell` to make build tools available.
 
 	nix develop
