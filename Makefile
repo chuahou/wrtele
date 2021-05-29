@@ -11,9 +11,10 @@ PKG_BUILD_DIR := $(BUILD_DIR)/$(PKG_NAME)
 include $(INCLUDE_DIR)/package.mk
 
 define Package/wrtele
-	SECTION     := utils
-	CATEGORY    := Utilities
-	TITLE       := wrtele
+	SECTION  := utils
+	CATEGORY := Utilities
+	TITLE    := wrtele
+	DEPENDS  := +libcurl
 endef
 
 define Package/wrtele/description
