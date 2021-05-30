@@ -62,7 +62,7 @@ char *list_macs()
 			char buf[BUF_SIZE];
 			while (fgets(buf, BUF_SIZE, p)) {
 				size_t read_len = strlen(buf);
-				char *new_output = realloc(output, output_len + read_len);
+				char *new_output = realloc(output, output_len + read_len + 1);
 				if (!new_output) {
 					free(output); free(commands); pclose(p); return NULL;
 				}
