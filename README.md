@@ -35,7 +35,9 @@ environment variables.
 
 * `WRTELE_TELE_API_KEY`: Telegram Bot API key.
 * `WRTELE_TELE_TARGET_CHAT_ID`: Chat ID to send updates to.
-* `WRTELE_MAC_ADDRS`: semicolon `;` separated list of MAC addresses to watch.
-* `WRTELE_LIST_COMMAND`: semicolon `;`, comma `,` or space separated list of
+* `WRTELE_MAC_ADDRS`: semicolon `;` or comma `,` separated list of MAC addresses
+  to watch. To name a device with MAC `<mac>` with name `<name>`, write
+  `<mac>=<name>`.
+* `WRTELE_LIST_COMMAND`: semicolon `;` separated list of
   commands to run to get MAC addresses. (E.g. `iwinfo wlan0 assoclist`)
 * `WRTELE_SLEEP_DURATION`: duration in seconds to sleep between each check.
