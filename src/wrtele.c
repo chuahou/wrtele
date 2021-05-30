@@ -22,6 +22,11 @@ int main(int argc, char **argv)
 		perror("Invalid MAC addresses to watch");
 		return -1;
 	}
+	puts("Watching devices:");
+	for (size_t i = 0; i < macs_len; i++) {
+		struct device mac = macs[i];
+		printf("%s %s\n", mac.mac, mac.name);
+	}
 
 	// Infinite loop to watch.
 	unsigned int sleep_duration = config_sleep_duration();
