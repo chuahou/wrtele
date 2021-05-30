@@ -29,17 +29,28 @@ struct device *config_mac_addrs(size_t *len)
 	// Iterate through tokens.
 	*len = 0;
 	struct device *devices = NULL;
-	char *mac = strtok(addrs, " ,;");
-	while (mac != NULL) {
+	char *strtok_st;
+	char *entry = strtok_r(addrs, ",;", &strtok_st);
+	while (entry != NULL) {
+		// Separate entry into MAC and device name. [mac]=[name]
+		char *inner_strtok_st;
+		char *mac = strtok_r(entry, "=", &inner_strtok_st);
+		char *name = strtok_r(NULL, "=", &inner_strtok_st);
+		if (!name) name = mac; // Use MAC as name if not provided.
+
+		// Add new device.
 		struct device *new_devices = realloc(devices,
 				sizeof(struct device) * ++*len);
 		if (!new_devices) { free(devices); len = 0; return NULL; }
 		devices = new_devices;
 		strncpy(devices[*len - 1].mac, mac, 17);
+		strncpy(devices[*len - 1].name, name, MAX_DEVICE_NAME_LEN - 1);
 		for (char *p = devices[*len - 1].mac; *p != '\0'; p++)
 			*p = tolower(*p);
 		devices[*len - 1].connected = false;
-		mac = strtok(NULL, " ,;");
+
+		// Advance to next token.
+		entry = strtok_r(NULL, ",;", &strtok_st);
 	}
 	free(addrs);
 

@@ -1,6 +1,7 @@
 // SPDX-License-Identifier: MIT
 // Copyright (c) 2021 Chua Hou
 
+#define _GNU_SOURCE
 #include <errno.h>
 #include <stdbool.h>
 #include <stdio.h>
@@ -30,15 +31,19 @@ int main(int argc, char **argv)
 
 		for (size_t i = 0; i < changed_len; i++) {
 			if (changed[i].connected) {
-				const int MSG_LEN = 36;
-				char msg[MSG_LEN];
-				snprintf(msg, MSG_LEN, "Device %s connected.", changed[i].mac);
-				tele_send_message(msg); puts(msg);
+				char *msg;
+				if (asprintf(&msg, "Device %s connected.", changed[i].name) < 0) {
+					perror("Failed to create message");
+					return -1;
+				}
+				tele_send_message(msg); puts(msg); free(msg);
 			} else {
-				const int MSG_LEN = 39;
-				char msg[MSG_LEN];
-				snprintf(msg, MSG_LEN, "Device %s disconnected.", changed[i].mac);
-				tele_send_message(msg); puts(msg);
+				char *msg;
+				if (asprintf(&msg, "Device %s disconnected.", changed[i].name) < 0) {
+					perror("Failed to create message");
+					return -1;
+				}
+				tele_send_message(msg); puts(msg); free(msg);
 			}
 		}
 		free(changed);

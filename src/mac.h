@@ -9,9 +9,12 @@
 #include <stdbool.h>
 #include <stddef.h>
 
+#define MAX_DEVICE_NAME_LEN 46 // 64 - 18
+
 // Status of a MAC address and its last known status.
 struct device {
 	char mac[18];
+	char name[MAX_DEVICE_NAME_LEN];
 	bool connected;
 };
 
