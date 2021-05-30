@@ -1,6 +1,7 @@
 // SPDX-License-Identifier: MIT
 // Copyright (c) 2021 Chua Hou
 
+#include <errno.h>
 #include <stdbool.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -16,6 +17,7 @@ int main(int argc, char **argv)
 	size_t macs_len;
 	struct device *macs = config_mac_addrs(&macs_len);
 	if (!macs || macs_len < 1) {
+		errno = EINVAL;
 		perror("Invalid MAC addresses to watch");
 		return -1;
 	}

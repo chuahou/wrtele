@@ -22,6 +22,7 @@ struct device *config_mac_addrs(size_t *len)
 {
 	// Make copy so we can strtok.
 	char *env = getenv("WRTELE_MAC_ADDRS");
+	if (!env) return NULL;
 	char *addrs = malloc(strlen(env) + 1);
 	memcpy(addrs, env, strlen(env) + 1);
 
