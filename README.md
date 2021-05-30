@@ -1,6 +1,8 @@
 # wrtele
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![Language grade: C/C++](https://img.shields.io/lgtm/grade/cpp/g/chuahou/wrtele.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/chuahou/wrtele/context:cpp)
+[![Total alerts](https://img.shields.io/lgtm/alerts/g/chuahou/wrtele.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/chuahou/wrtele/alerts/)
 
 Telegram bot that runs on OpenWRT that informs when certain devices connect and
 disconnect.
