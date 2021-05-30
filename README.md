@@ -27,3 +27,15 @@ Then copy `bin/packages/<arch>/base/wrtele_<release>_<arch>.ipk` to the router a
 install it with `opkg install`.
 
 Since the build process is impure using `feeds`, a pure Nix build is KIV.
+
+## Usage
+
+Simply run the binary with no arguments, and give configuration using
+environment variables.
+
+* `WRTELE_TELE_API_KEY`: Telegram Bot API key.
+* `WRTELE_TELE_TARGET_CHAT_ID`: Chat ID to send updates to.
+* `WRTELE_MAC_ADDRS`: semicolon `;` separated list of MAC addresses to watch.
+* `WRTELE_LIST_COMMAND`: semicolon `;`, comma `,` or space separated list of
+  commands to run to get MAC addresses. (E.g. `iwinfo wlan0 assoclist`)
+* `WRTELE_SLEEP_DURATION`: duration in seconds to sleep between each check.
