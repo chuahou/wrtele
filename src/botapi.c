@@ -9,17 +9,16 @@
 #include <curl/curl.h>
 
 #include "botapi.h"
-#include "config.h"
 
-bool tele_send_message(char *msg)
+bool tele_send_message(char *key, char *chat_id, char *msg)
 {
 	CURL *curl;
 	if ((curl = curl_easy_init())) {
 
 		// Create the URL.
 		char *url;
-		if (asprintf(&url, "https://api.telegram.org/bot%s/sendMessage",
-				config_tele_api_key()) < 0) {
+		if (asprintf(&url,
+					"https://api.telegram.org/bot%s/sendMessage", key) < 0) {
 			perror("Failed to create request URL");
 			curl_easy_cleanup(curl);
 			return false;
@@ -30,8 +29,8 @@ bool tele_send_message(char *msg)
 
 		// Put fields in POST fields.
 		char *postfields;
-		if (asprintf(&postfields, "chat_id=%s&text=%s",
-				config_tele_target_chat_id(), encoded_msg) < 0) {
+		if (asprintf(&postfields,
+					"chat_id=%s&text=%s", chat_id, encoded_msg) < 0) {
 			perror("Failed to create post fields");
 			curl_easy_cleanup(curl);
 			return false;

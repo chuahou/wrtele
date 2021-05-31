@@ -41,14 +41,18 @@ int main(int argc, char **argv)
 					perror("Failed to create message");
 					return -1;
 				}
-				tele_send_message(msg); puts(msg); free(msg);
+				tele_send_message(config_tele_api_key(),
+						config_tele_target_chat_id(), msg);
+				puts(msg); free(msg);
 			} else {
 				char *msg;
 				if (asprintf(&msg, "Device %s disconnected.", changed[i].name) < 0) {
 					perror("Failed to create message");
 					return -1;
 				}
-				tele_send_message(msg); puts(msg); free(msg);
+				tele_send_message(config_tele_api_key(),
+						config_tele_target_chat_id(), msg);
+				puts(msg); free(msg);
 			}
 		}
 		free(changed);

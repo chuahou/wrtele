@@ -1,5 +1,9 @@
 # Revision history for wrtele
 
+## WIP
+
+* Remove dependency of botapi.* on config.h.
+
 ## 0.1.1.1 -- 2021-05-30
 
 * Fix null-termination bug.

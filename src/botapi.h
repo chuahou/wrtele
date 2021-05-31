@@ -8,8 +8,9 @@
 
 #include <stdbool.h>
 
-// Uses Telegram Bot API to send a message to the target user.
+// Uses Telegram Bot API to send a message to the target user. Requires bot API
+// key and target chat ID.
 // Returns true on success.
-bool tele_send_message(char *msg);
+bool tele_send_message(char *key, char *chat_id, char *msg);
 
 #endif
