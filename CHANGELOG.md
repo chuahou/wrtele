@@ -4,6 +4,7 @@
 
 * Remove dependency of botapi.* on config.h.
 * Move command parsing to main and remove dependency of mac.* on config.h.
+* Refactor error handling using goto.
 
 ## 0.1.1.1 -- 2021-05-30
 
