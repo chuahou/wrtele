@@ -3,6 +3,7 @@
 ## WIP
 
 * Remove dependency of botapi.* on config.h.
+* Move command parsing to main and remove dependency of mac.* on config.h.
 
 ## 0.1.1.1 -- 2021-05-30
 

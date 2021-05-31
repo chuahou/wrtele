@@ -18,12 +18,16 @@ struct device {
 	bool connected;
 };
 
-// Updates the connection status of devices devs, and returns a list of changed
-// devices. The list must be free()-ed.
-struct device *check_status(struct device *devs, size_t num_devs, size_t *changed_len);
+// Updates the connection status of devices devs from the given list of MACs
+// macs, and returns a list of changed devices. The list must be free()-ed. The
+// length of the list of changed devices is written to changed_len, and the
+// specified commands_len commands are run. The string macs is destructively
+// modified.
+struct device *check_status(struct device *devs, size_t devs_len,
+		char *macs, size_t *changed_len);
 
-// Returns a string of the output of config_list_command()'s commands, which
-// must be free()-ed.
-char *list_macs();
+// Returns a string of the output of given commands, which must be free()-ed.
+// commands_len is the length of the commands array.
+char *list_macs(char **commands, size_t commands_len);
 
 #endif
