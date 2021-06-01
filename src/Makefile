@@ -17,14 +17,10 @@ HEADERS := $(wildcard *.h)
 
 build: | dirs $(BIN)
 
-config.h:
-	@echo "Make a copy of config.tmpl.h called config.h and do configuration there."
-	@false
-
 $(BIN): $(OBJ)
 	$(CC) $^ $(LDFLAGS) -o $@
 
-$(OBJDIR)/%.o: %.c $(HEADERS) config.h
+$(OBJDIR)/%.o: %.c $(HEADERS)
 	$(CC) $(CFLAGS) -c $< -o $@
 
 dirs:
