@@ -2,7 +2,6 @@
 // Copyright (c) 2021 Chua Hou
 
 #define _GNU_SOURCE
-#include <errno.h>
 #include <stdbool.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -24,8 +23,7 @@ int main(int argc, char **argv)
 	size_t devs_len;
 	struct device *devs = config_mac_addrs(&devs_len);
 	if (!devs || devs_len < 1) {
-		errno = EINVAL;
-		perror("Invalid MAC addresses to watch");
+		fputs("Invalid MAC addresses to watch", stderr);
 		return -1;
 	}
 	puts("Watching devices:");
@@ -43,8 +41,7 @@ int main(int argc, char **argv)
 	size_t commands_len;
 	char **commands = parse_commands(commands_str, &commands_len);
 	if (!commands || commands_len < 1) {
-		errno = EINVAL;
-		perror("Failed to parse commands");
+		fputs("Failed to parse commands", stderr);
 		return -1;
 	}
 	puts("Using commands:");
@@ -63,12 +60,12 @@ int main(int argc, char **argv)
 			char *msg;
 			if (changed[i].connected) {
 				if (asprintf(&msg, "Device %s connected.", changed[i].name) < 0) {
-					perror("Failed to create message");
+					fputs("Failed to create message", stderr);
 					return -1;
 				}
 			} else {
 				if (asprintf(&msg, "Device %s disconnected.", changed[i].name) < 0) {
-					perror("Failed to create message");
+					fputs("Failed to create message", stderr);
 					return -1;
 				}
 			}
