@@ -6,13 +6,12 @@
 #include <stdlib.h>
 #include <string.h>
 
-#include "config.h"
 #include "mac.h"
 
-struct device *check_status(struct device *devs, size_t devs_len, size_t *changed_len)
+struct device *check_status(struct device *devs, size_t devs_len,
+		char *macs, size_t *changed_len)
 {
 	*changed_len = 0;
-	char *macs = list_macs();
 	if (!macs) return NULL;
 
 	// Make everything lowercase.
@@ -20,7 +19,7 @@ struct device *check_status(struct device *devs, size_t devs_len, size_t *change
 
 	// Array of changed devices.
 	struct device *changed = malloc(sizeof(struct device) * devs_len);
-	if (!changed) { free(macs); return NULL; }
+	if (!changed) return NULL;
 
 	// Iterate through devices.
 	for (size_t i = 0; i < devs_len; i++) {
@@ -34,54 +33,35 @@ struct device *check_status(struct device *devs, size_t devs_len, size_t *change
 			changed[(*changed_len)++] = devs[i];
 		}
 	}
-	free(macs);
-
 	return changed;
 }
 
-char *list_macs()
+char *list_macs(char **commands, size_t commands_len)
 {
-	// Create mutable copy of commands config string since we use destructive
-	// calls to strtok.
-	char *commands;
-	char *commands_env = config_list_command();
-	if (!commands_env) return NULL;
-	size_t len = strlen(commands_env);
-	if ((commands = malloc(len + 1))) {
-		memcpy(commands, commands_env, len + 1);
+	// Iterate over commands.
+	char *output = NULL; size_t output_len = 0;
+	for (size_t i = 0; i < commands_len; i++) {
+		char *command = commands[i];
+		FILE *p = popen(command, "r");
+		if (!p) return NULL;
 
-		// Iterate over commands.
-		char *command = strtok(commands, ";");
-		char *output = NULL; size_t output_len = 0;
-		while (command != NULL) {
-			FILE *p = popen(command, "r");
-			if (!p) { free(commands); return NULL; }
-
-			// Copy output into output variable.
-			const size_t BUF_SIZE = 128;
-			char buf[BUF_SIZE];
-			while (fgets(buf, BUF_SIZE, p)) {
-				size_t read_len = strlen(buf);
-				char *new_output = realloc(output, output_len + read_len + 1);
-				if (!new_output) {
-					free(output); free(commands); pclose(p); return NULL;
-				}
-				output = new_output;
-
-				memcpy(&output[output_len], buf, read_len + 1); // +1 for '\0'
-				output_len += read_len;
+		// Copy output into output variable.
+		const size_t BUF_SIZE = 128;
+		char buf[BUF_SIZE];
+		while (fgets(buf, BUF_SIZE, p)) {
+			size_t read_len = strlen(buf);
+			char *new_output = realloc(output, output_len + read_len + 1);
+			if (!new_output) {
+				free(output); pclose(p); return NULL;
 			}
+			output = new_output;
 
-			pclose(p);
-
-			// Next command.
-			command = strtok(NULL, ";");
+			memcpy(&output[output_len], buf, read_len + 1); // +1 for '\0'
+			output_len += read_len;
 		}
-		free(commands);
 
-		return output;
-
-	} else {
-		return NULL;
+		pclose(p);
 	}
+
+	return output;
 }
